@@ -19,11 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3A9F22D4-25AC-4089-894A-791E718FB3B1}</ProjectGuid>
+    <ProjectGuid>{07F93E38-2596-40B4-B63C-066F573320F3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>chat</RootNamespace>
+    <RootNamespace>host</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>guest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
