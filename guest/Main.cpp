@@ -1,71 +1,125 @@
-#include "DxLib.h"
+#include "Main.h"
+
+void Main::Init()
+{
+    SetAlwaysRunFlag(TRUE);
+    SetBackgroundColor(200, 200, 200);
+    SetDoubleStartValidFlag(TRUE);
+    ChangeWindowMode(TRUE);
+    if (DxLib_Init() == -1)
+        exit(1);
+
+    SetDrawScreen(DX_SCREEN_BACK);
+    SetWindowText("chat - guest");
+}
+
+void Main::Run()
+{
+    Network network;
+
+    // 接続が完了するかESCキーが押されるまでループ
+    while (MessageLoop() && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !network.TryConnect()) {
+        DrawString(0, 0, "接続中...", 0x000000);
+    }
+
+    // 接続されていたら次に進む
+    if (network.isConnected()) {
+
+        while (MessageLoop() && network.Update()) {
+
+            network.Draw();
+
+            static bool pre_key_status = true;
+            // スペースキーが押されたときデータを送信
+            if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
+                network.Send();
+            pre_key_status = (CheckHitKeyAll() != 0);
+        }
+
+
+
+        // 切断確認表示
+        DrawString(0, 16, "切断しました", GetColor(255, 255, 255));
+        ScreenFlip();
+
+        WaitKey();
+        WaitKey();
+        WaitKey();
+    }
+}
+
+bool Main::MessageLoop()
+{
+    return ProcessMessage() == 0 && ScreenFlip() == 0 && ClearDrawScreen() == 0;
+}
+
+void Main::End()
+{
+    DxLib_End();
+}
+
+Network::Network()
+{
+    ip = HOST_IP;  // IPアドレスを設定
+    hNet = -1;
+}
+
+bool Network::TryConnect()
+{
+    static unsigned cnt = 0;
+
+    if (cnt % 180 == 0)
+        hNet = ConnectNetWork(ip, HOST_PORT);  // 通信を確立
+    cnt++;
+
+    return hNet != -1;
+}
+
+bool Network::isConnected()
+{
+    return hNet != -1;
+}
+
+bool Network::Update()
+{
+    int data_len;           // 受信データ量保存用変数
+    char strbuf[256];       // データバッファ
+
+    data_len = GetNetWorkDataLength(hNet);
+
+    // 取得していない受信データ量が0以外のとき
+    if (data_len != 0) {
+        NetWorkRecv(hNet, strbuf, data_len);            // データをバッファに取得
+        talk.push_back(strbuf);
+    }
+
+    // 通信が切断された場合falseを返す
+    if (GetLostNetWork() == hNet)
+        return false;
+
+    return true;
+}
+
+void Network::Draw()
+{
+    for (int i = 0; i < talk.size(); i++)
+        DrawString(0, i * 20, talk[i].c_str(), GetColor(255, 255, 255));
+}
+
+void Network::Send()
+{
+    // データ送信
+    NetWorkSend(hNet, "繋がったか～！？", 17);
+}
 
 int WINAPI WinMain(HINSTANCE hInstance,
     HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    char strbuf[256];   // データバッファ
-    int hNet, hLost;    // ネットワークハンドル
-    int data_len;       // 受信データ量保存用変数
-    IPDATA ip;          // 接続先IPアドレスデータ
+    Main main_ob;
 
-    SetBackgroundColor(200, 200, 200);
-    ChangeWindowMode(TRUE);
-    if (DxLib_Init() == -1)
-        return -1;
-
-    SetWindowText("chat - guest");
-
-    // 接続してくるのを待つ状態にする
-    PreparationListenNetWork(9850);
-
-    // 接続してくるかESCキーが押されるまでループ
-    hNet = -1;
-    while (!ProcessMessage() && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
-        // 新しい接続があったらそのネットワークハンドルを得る
-        hNet = GetNewAcceptNetWork();
-        if (hNet != -1)  break;
-    }
-
-    // 接続されていたら次に進む
-    if (hNet != -1) {
-        // 接続の受付を終了する
-        StopListenNetWork();
-
-        // 接続してきたマシンのIPアドレスを得る
-        GetNetWorkIP(hNet, &ip);
-
-        // データが送られて来るまで待つ
-        while (!ProcessMessage()) {
-            // 取得していない受信データ量が0以外のときはループから抜ける
-            if (GetNetWorkDataLength(hNet) != 0) break;
-        }
-
-        // データ受信
-        data_len = GetNetWorkDataLength(hNet);  // データの量を取得
-        NetWorkRecv(hNet, strbuf, data_len);    // データをバッファに取得
-
-        // 受信したデータを描画
-        DrawString(0, 0, strbuf, GetColor(255, 255, 255));
-
-        // 受信成功のデータを送信
-        NetWorkSend(hNet, "繋がったぞ～！！", 17);
-
-        // 相手が通信を切断するまで待つ
-        while (!ProcessMessage()) {
-            // 新たに切断されたネットワークハンドルを得る
-            hLost = GetLostNetWork();
-
-            // 切断された接続が今まで通信してた相手だった場合ループを抜ける
-            if (hLost == hNet)   break;
-        }
-
-        // 切断確認表示
-        DrawString(0, 16, "切断しました", GetColor(255, 255, 255));
-
-        WaitKey();
-    }
-
-    DxLib_End();
+    main_ob.Init();
+    main_ob.Run();
+    main_ob.End();
 
     return 0;
 }
