@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DxLib.h"
 #include <vector>
@@ -10,13 +10,13 @@ using namespace std;
 
 class Network {
     vector<string> talk;
-    IPDATA ip;              // Ú‘±æIPƒAƒhƒŒƒXƒf[ƒ^
-    int hNet;               // ƒlƒbƒgƒ[ƒNƒnƒ“ƒhƒ‹
+    IPDATA ip;              // æ¥ç¶šå…ˆIPã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ‡ãƒ¼ã‚¿
+    int hNet;               // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒ³ãƒ‰ãƒ«
 public:
     Network();
-    bool TryConnect();      // ‘Šèƒ}ƒVƒ“‚ÉÚ‘±‚ğs
-    bool isConnected();     // Ú‘±‚ª¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
-    bool Update();          // –ˆƒ‹[ƒvÀs
-    void Draw();            // •`‰æ
-    void Send();            // ‘Šèƒ}ƒVƒ“‚Éƒf[ƒ^‚ğ‘—M
+    bool TryConnect();      // ç›¸æ‰‹ãƒã‚·ãƒ³ã«æ¥ç¶šã‚’è©¦è¡Œ
+    bool isConnected();     // æ¥ç¶šãŒæˆåŠŸã—ãŸã‹ã©ã†ã‹
+    bool Update();          // æ¯ãƒ«ãƒ¼ãƒ—å®Ÿè¡Œ
+    void Draw();            // æç”»
+    void Send();            // ç›¸æ‰‹ãƒã‚·ãƒ³ã«ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
 };

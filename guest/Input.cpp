@@ -1,3 +1,3 @@
-#include"DxLib.h"
+﻿#include"DxLib.h"
 #include "Input.h"
 

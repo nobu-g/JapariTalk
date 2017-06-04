@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
 class Input {
-    int hInput;     // ƒL[“ü—Íƒnƒ“ƒhƒ‹
+    int hInput;     // ã‚­ãƒ¼å…¥åŠ›ãƒãƒ³ãƒ‰ãƒ«
 public:
 
 };

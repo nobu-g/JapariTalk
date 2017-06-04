@@ -1,4 +1,4 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 #include "Network.h"
 #include "Input.h"
 
@@ -19,12 +19,12 @@ void Main::Run()
 {
     Network network;
 
-    // Ú‘±‚ªŠ®—¹‚·‚é‚©ESCƒL[‚ª‰Ÿ‚³‚ê‚é‚Ü‚Åƒ‹[ƒv
+    // æ¥ç¶šãŒå®Œäº†ã™ã‚‹ã‹ESCã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—
     while (MessageLoop() && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !network.TryConnect()) {
-        DrawString(0, 0, "Ú‘±’†...", 0x000000);
+        DrawString(0, 0, "æ¥ç¶šä¸­...", 0x000000);
     }
 
-    // Ú‘±‚³‚ê‚Ä‚¢‚½‚çŸ‚Éi‚Ş
+    // æ¥ç¶šã•ã‚Œã¦ã„ãŸã‚‰æ¬¡ã«é€²ã‚€
     if (network.isConnected()) {
 
         while (MessageLoop() && network.Update()) {
@@ -32,7 +32,7 @@ void Main::Run()
             network.Draw();
 
             static bool pre_key_status = true;
-            // ƒXƒy[ƒXƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«ƒf[ƒ^‚ğ‘—M
+            // ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ããƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
             if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
                 network.Send();
             pre_key_status = (CheckHitKeyAll() != 0);
@@ -40,8 +40,8 @@ void Main::Run()
 
 
 
-        // Ø’fŠm”F•\¦
-        DrawString(0, 16, "Ø’f‚µ‚Ü‚µ‚½", GetColor(255, 255, 255));
+        // åˆ‡æ–­ç¢ºèªè¡¨ç¤º
+        DrawString(0, 16, "åˆ‡æ–­ã—ã¾ã—ãŸ", GetColor(255, 255, 255));
         ScreenFlip();
 
         WaitKey();

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DxLib.h"
 #include <vector>
@@ -7,7 +7,7 @@ using namespace std;
 
 #define PORT    50000
 
-// ƒƒCƒ“ƒNƒ‰ƒX
+// ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
 class Main {
 public:
     void Init();
@@ -16,23 +16,23 @@ public:
     void End();
 };
 
-// ’ÊMƒNƒ‰ƒX
+// é€šä¿¡ã‚¯ãƒ©ã‚¹
 class Network {
-    vector<string> talk;    // ƒ`ƒƒƒbƒgƒƒO
-    int hNet;               // ƒlƒbƒgƒ[ƒNƒnƒ“ƒhƒ‹
-    IPDATA ip;              // Ú‘±æIPƒAƒhƒŒƒXƒf[ƒ^
+    vector<string> talk;    // ãƒãƒ£ãƒƒãƒˆãƒ­ã‚°
+    int hNet;               // ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒ³ãƒ‰ãƒ«
+    IPDATA ip;              // æ¥ç¶šå…ˆIPã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ‡ãƒ¼ã‚¿
 public:
     Network();
-    void StartListen();     // Ú‘±ó•t‚ğŠJn
-    bool Listen();          // V‚µ‚¢Ú‘±‚ª‚ ‚ê‚Îtrue‚ğ•Ô‚·
-    bool isConnected();     // Ú‘±‚ª¬Œ÷‚µ‚½‚©‚Ç‚¤‚©
-    void Establish();       // Ú‘±‚ğŠm—§‚·‚é
-    bool Update();          // –ˆƒ‹[ƒvÀs
-    void Draw();            // •`‰æ
-    void Send();            // ‘Šèƒ}ƒVƒ“‚Éƒf[ƒ^‚ğ‘—M
+    void StartListen();     // æ¥ç¶šå—ä»˜ã‚’é–‹å§‹
+    bool Listen();          // æ–°ã—ã„æ¥ç¶šãŒã‚ã‚Œã°trueã‚’è¿”ã™
+    bool isConnected();     // æ¥ç¶šãŒæˆåŠŸã—ãŸã‹ã©ã†ã‹
+    void Establish();       // æ¥ç¶šã‚’ç¢ºç«‹ã™ã‚‹
+    bool Update();          // æ¯ãƒ«ãƒ¼ãƒ—å®Ÿè¡Œ
+    void Draw();            // æç”»
+    void Send();            // ç›¸æ‰‹ãƒã‚·ãƒ³ã«ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
 };
 
-// •¶š“ü—ÍƒNƒ‰ƒX
+// æ–‡å­—å…¥åŠ›ã‚¯ãƒ©ã‚¹
 class Input {
 
 };

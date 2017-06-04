@@ -3,7 +3,7 @@
 void Main::Init()
 {
     SetAlwaysRunFlag(TRUE);
-    SetBackgroundColor(200, 200, 200); 
+    SetBackgroundColor(200, 200, 200);
     SetDoubleStartValidFlag(TRUE);
     ChangeWindowMode(TRUE);
     if (DxLib_Init() == -1)

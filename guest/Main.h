@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include "DxLib.h"
 
-// ƒƒCƒ“ƒNƒ‰ƒX
+// ãƒ¡ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
 class Main {
 public:
     void Init();

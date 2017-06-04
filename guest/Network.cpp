@@ -1,8 +1,8 @@
-#include "Network.h"
+ï»¿#include "Network.h"
 
 Network::Network()
 {
-    ip = HOST_IP;  // IPƒAƒhƒŒƒX‚ğİ’è
+    ip = HOST_IP;  // IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®š
     hNet = -1;
 }
 
@@ -11,7 +11,7 @@ bool Network::TryConnect()
     static unsigned cnt = 0;
 
     if (cnt % 180 == 0)
-        hNet = ConnectNetWork(ip, HOST_PORT);  // ’ÊM‚ğŠm—§
+        hNet = ConnectNetWork(ip, HOST_PORT);  // é€šä¿¡ã‚’ç¢ºç«‹
     cnt++;
 
     return hNet != -1;
@@ -24,18 +24,18 @@ bool Network::isConnected()
 
 bool Network::Update()
 {
-    int data_len;           // óMƒf[ƒ^—Ê•Û‘¶—p•Ï”
-    char strbuf[256];       // ƒf[ƒ^ƒoƒbƒtƒ@
+    int data_len;           // å—ä¿¡ãƒ‡ãƒ¼ã‚¿é‡ä¿å­˜ç”¨å¤‰æ•°
+    char strbuf[256];       // ãƒ‡ãƒ¼ã‚¿ãƒãƒƒãƒ•ã‚¡
 
     data_len = GetNetWorkDataLength(hNet);
 
-    // æ“¾‚µ‚Ä‚¢‚È‚¢óMƒf[ƒ^—Ê‚ª0ˆÈŠO‚Ì‚Æ‚«
+    // å–å¾—ã—ã¦ã„ãªã„å—ä¿¡ãƒ‡ãƒ¼ã‚¿é‡ãŒ0ä»¥å¤–ã®ã¨ã
     if (data_len != 0) {
-        NetWorkRecv(hNet, strbuf, data_len);            // ƒf[ƒ^‚ğƒoƒbƒtƒ@‚Éæ“¾
+        NetWorkRecv(hNet, strbuf, data_len);            // ãƒ‡ãƒ¼ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«å–å¾—
         talk.push_back(strbuf);
     }
 
-    // ’ÊM‚ªØ’f‚³‚ê‚½ê‡false‚ğ•Ô‚·
+    // é€šä¿¡ãŒåˆ‡æ–­ã•ã‚ŒãŸå ´åˆfalseã‚’è¿”ã™
     if (GetLostNetWork() == hNet)
         return false;
 
@@ -50,6 +50,6 @@ void Network::Draw()
 
 void Network::Send()
 {
-    // ƒf[ƒ^‘—M
-    NetWorkSend(hNet, "Œq‚ª‚Á‚½‚©`IH", 17);
+    // ãƒ‡ãƒ¼ã‚¿é€ä¿¡
+    NetWorkSend(hNet, "ç¹‹ãŒã£ãŸã‹ï½ï¼ï¼Ÿ", 17);
 }
