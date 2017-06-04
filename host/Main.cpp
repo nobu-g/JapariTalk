@@ -1,4 +1,4 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 
 void Main::Init()
 {
@@ -17,15 +17,15 @@ void Main::Run()
 {
     Network network;
 
-    // Ú‘±‚µ‚Ä‚­‚é‚Ì‚ğ‘Ò‚Âó‘Ô‚É‚·‚é
+    // æ¥ç¶šã—ã¦ãã‚‹ã®ã‚’å¾…ã¤çŠ¶æ…‹ã«ã™ã‚‹
     network.StartListen();
 
-    // Ú‘±‚µ‚Ä‚­‚é‚©ESCƒL[‚ª‰Ÿ‚³‚ê‚é‚Ü‚Åƒ‹[ƒv
+    // æ¥ç¶šã—ã¦ãã‚‹ã‹ESCã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—
     while (MessageLoop() && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !network.Listen()) {
-        DrawString(0, 0, "Ú‘±’†...", 0x000000);
+        DrawString(0, 0, "æ¥ç¶šä¸­...", 0x000000);
     }
 
-    // Ú‘±‚³‚ê‚Ä‚¢‚½‚çŸ‚Éi‚Ş
+    // æ¥ç¶šã•ã‚Œã¦ã„ãŸã‚‰æ¬¡ã«é€²ã‚€
     if (network.isConnected()) {
         network.Establish();
 
@@ -34,7 +34,7 @@ void Main::Run()
             network.Draw();
 
             static bool pre_key_status = true;
-            // ƒXƒy[ƒXƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«ƒf[ƒ^‚ğ‘—M
+            // ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ããƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
             if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
                 network.Send();
             pre_key_status = (CheckHitKeyAll() != 0);
@@ -42,8 +42,8 @@ void Main::Run()
 
 
 
-        // Ø’fŠm”F•\¦
-        DrawString(0, 16, "Ø’f‚µ‚Ü‚µ‚½", GetColor(255, 255, 255));
+        // åˆ‡æ–­ç¢ºèªè¡¨ç¤º
+        DrawString(0, 16, "åˆ‡æ–­ã—ã¾ã—ãŸ", GetColor(255, 255, 255));
         ScreenFlip();
 
         WaitKey();
@@ -86,27 +86,27 @@ bool Network::isConnected()
 
 void Network::Establish()
 {
-    // Ú‘±‚Ìó•t‚ğI—¹‚·‚é
+    // æ¥ç¶šã®å—ä»˜ã‚’çµ‚äº†ã™ã‚‹
     StopListenNetWork();
 
-    // Ú‘±‚µ‚Ä‚«‚½ƒ}ƒVƒ“‚ÌIPƒAƒhƒŒƒX‚ğ“¾‚é
+    // æ¥ç¶šã—ã¦ããŸãƒã‚·ãƒ³ã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å¾—ã‚‹
     GetNetWorkIP(hNet, &ip);
 }
 
 bool Network::Update()
 {
-    int data_len;           // óMƒf[ƒ^—Ê•Û‘¶—p•Ï”
-    char strbuf[256];       // ƒf[ƒ^ƒoƒbƒtƒ@
+    int data_len;           // å—ä¿¡ãƒ‡ãƒ¼ã‚¿é‡ä¿å­˜ç”¨å¤‰æ•°
+    char strbuf[256];       // ãƒ‡ãƒ¼ã‚¿ãƒãƒƒãƒ•ã‚¡
 
     data_len = GetNetWorkDataLength(hNet);
 
-    // æ“¾‚µ‚Ä‚¢‚È‚¢óMƒf[ƒ^—Ê‚ª0ˆÈŠO‚Ì‚Æ‚«
+    // å–å¾—ã—ã¦ã„ãªã„å—ä¿¡ãƒ‡ãƒ¼ã‚¿é‡ãŒ0ä»¥å¤–ã®ã¨ã
     if (data_len != 0) {
-        NetWorkRecv(hNet, strbuf, data_len);            // ƒf[ƒ^‚ğƒoƒbƒtƒ@‚Éæ“¾
+        NetWorkRecv(hNet, strbuf, data_len);            // ãƒ‡ãƒ¼ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«å–å¾—
         talk.push_back(strbuf);
     }
 
-    // ’ÊM‚ªØ’f‚³‚ê‚½ê‡false‚ğ•Ô‚·
+    // é€šä¿¡ãŒåˆ‡æ–­ã•ã‚ŒãŸå ´åˆfalseã‚’è¿”ã™
     if (GetLostNetWork() == hNet)
         return false;
 
@@ -121,8 +121,8 @@ void Network::Draw()
 
 void Network::Send()
 {
-    // óM¬Œ÷‚Ìƒf[ƒ^‚ğ‘—M
-    NetWorkSend(hNet, "Œq‚ª‚Á‚½‚¼`II", 17);
+    // å—ä¿¡æˆåŠŸã®ãƒ‡ãƒ¼ã‚¿ã‚’é€ä¿¡
+    NetWorkSend(hNet, "ç¹‹ãŒã£ãŸãï½ï¼ï¼", 17);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance,
