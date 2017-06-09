@@ -67,9 +67,7 @@ void Main::Run()
         DrawString(0, 16, "切断しました", GetColor(255, 255, 255));
         ScreenFlip();
 
-        WaitKey();
-        WaitKey();
-        WaitKey();
+
     }
 }
 
@@ -89,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     Main main_ob;
 
     main_ob.Init();
-    main_ob.Run();
+    while(!ProcessMessage()) main_ob.Run();
     main_ob.End();
 
     return 0;

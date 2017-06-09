@@ -19,7 +19,7 @@ void Main::Init()
     SetBackgroundColor(100, 100, 100);
     SetDoubleStartValidFlag(TRUE);
     ChangeWindowMode(TRUE);
-    SetGraphMode(SCALE(320), SCALE(480), 16);
+    SetGraphMode(SCREEN_W, SCREEN_H, 16);
     if (DxLib_Init() == -1)
         exit(1);
 
@@ -52,7 +52,7 @@ void Main::Run()
 
             input.Draw();
             network.Draw();
-
+            
             //static bool pre_key_status = true;
             //// スペースキーが押されたときデータを送信
             //if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
