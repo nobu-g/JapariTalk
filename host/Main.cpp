@@ -1,11 +1,25 @@
 ﻿#include "Main.h"
+#include "../guest/Talk.h"
+#include "Network.h"
+#include "../guest/Input.h"
+#include <Windows.h>
+
+double scale;
+
+vector<Message> talk;       // チャットログ
 
 void Main::Init()
 {
+    // デバイスのDPIを取得
+    HDC screen = GetDC(0);
+    scale = GetDeviceCaps(screen, LOGPIXELSX) / 96.0;
+    ReleaseDC(0, screen);
+
     SetAlwaysRunFlag(TRUE);
     SetBackgroundColor(200, 200, 200);
     SetDoubleStartValidFlag(TRUE);
     ChangeWindowMode(TRUE);
+    SetGraphMode(SCALE(320), SCALE(480), 16);
     if (DxLib_Init() == -1)
         exit(1);
 
@@ -29,15 +43,22 @@ void Main::Run()
     if (network.isConnected()) {
         network.Establish();
 
+        Input input;
+        string msg;
+
         while (MessageLoop() && network.Update()) {
 
+            if (!(msg = input.Update()).empty())
+                network.Send(msg);
+
+            input.Draw();
             network.Draw();
 
-            static bool pre_key_status = true;
-            // スペースキーが押されたときデータを送信
-            if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
-                network.Send();
-            pre_key_status = (CheckHitKeyAll() != 0);
+            //static bool pre_key_status = true;
+            //// スペースキーが押されたときデータを送信
+            //if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
+            //    network.Send();
+            //pre_key_status = (CheckHitKeyAll() != 0);
         }
 
 
@@ -60,69 +81,6 @@ bool Main::MessageLoop()
 void Main::End()
 {
     DxLib_End();
-}
-
-Network::Network()
-{
-    hNet = -1;
-}
-
-void Network::StartListen()
-{
-    PreparationListenNetWork(PORT);
-}
-
-bool Network::Listen()
-{
-    hNet = GetNewAcceptNetWork();
-
-    return hNet != -1;
-}
-
-bool Network::isConnected()
-{
-    return hNet != -1;
-}
-
-void Network::Establish()
-{
-    // 接続の受付を終了する
-    StopListenNetWork();
-
-    // 接続してきたマシンのIPアドレスを得る
-    GetNetWorkIP(hNet, &ip);
-}
-
-bool Network::Update()
-{
-    int data_len;           // 受信データ量保存用変数
-    char strbuf[256];       // データバッファ
-
-    data_len = GetNetWorkDataLength(hNet);
-
-    // 取得していない受信データ量が0以外のとき
-    if (data_len != 0) {
-        NetWorkRecv(hNet, strbuf, data_len);            // データをバッファに取得
-        talk.push_back(strbuf);
-    }
-
-    // 通信が切断された場合falseを返す
-    if (GetLostNetWork() == hNet)
-        return false;
-
-    return true;
-}
-
-void Network::Draw()
-{
-    for (int i = 0; i < talk.size(); i++)
-        DrawString(0, i * 20, talk[i].c_str(), GetColor(255, 255, 255));
-}
-
-void Network::Send()
-{
-    // 受信成功のデータを送信
-    NetWorkSend(hNet, "繋がったぞ～！！", 17);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance,

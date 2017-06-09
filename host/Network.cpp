@@ -1,19 +1,19 @@
 ﻿#include "Network.h"
-#include "Talk.h"
+#include "../guest/Talk.h"
 
 Network::Network()
 {
-    ip = HOST_IP;  // IPアドレスを設定
     hNet = -1;
 }
 
-bool Network::TryConnect()
+void Network::StartListen()
 {
-    static unsigned cnt = 0;
+    PreparationListenNetWork(PORT);
+}
 
-    if (cnt % 180 == 0)
-        hNet = ConnectNetWork(ip, HOST_PORT);  // 通信を確立
-    cnt++;
+bool Network::Listen()
+{
+    hNet = GetNewAcceptNetWork();
 
     return hNet != -1;
 }
@@ -21,6 +21,15 @@ bool Network::TryConnect()
 bool Network::isConnected()
 {
     return hNet != -1;
+}
+
+void Network::Establish()
+{
+    // 接続の受付を終了する
+    StopListenNetWork();
+
+    // 接続してきたマシンのIPアドレスを得る
+    GetNetWorkIP(hNet, &ip);
 }
 
 bool Network::Update()
@@ -33,7 +42,7 @@ bool Network::Update()
     // 取得していない受信データ量が0以外のとき
     if (data_len != 0) {
         NetWorkRecv(hNet, strbuf, data_len);            // データをバッファに取得
-        talk.push_back(Message(strbuf, Host));
+        talk.push_back(Message(strbuf, Guest));
     }
 
     // 通信が切断された場合falseを返す
