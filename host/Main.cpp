@@ -16,15 +16,16 @@ void Main::Init()
     ReleaseDC(0, screen);
 
     SetAlwaysRunFlag(TRUE);
-    SetBackgroundColor(200, 200, 200);
+    SetBackgroundColor(100, 100, 100);
     SetDoubleStartValidFlag(TRUE);
     ChangeWindowMode(TRUE);
-    SetGraphMode(SCALE(320), SCALE(480), 16);
+    SetGraphMode(SCREEN_W, SCREEN_H, 16);
     if (DxLib_Init() == -1)
         exit(1);
 
     SetDrawScreen(DX_SCREEN_BACK);
     SetWindowText("chat - host");
+    ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
 }
 
 void Main::Run()

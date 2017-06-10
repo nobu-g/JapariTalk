@@ -20,7 +20,6 @@ Input::Input()
 
     // IME設定
     SetKeyInputStringColor(BLACK, BLACK, WHITE, BLACK, BLACK, LIGHT_BLUE, BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, BLUE, WHITE, WHITE, BLACK, BLACK);
-    SetKeyInputCursorBrinkFlag(TRUE);
     SetIMEInputStringMaxLength(MAX_INPUT_LEN);
     
     SetKeyInputString("a", hInput);
@@ -36,7 +35,7 @@ Input::~Input()
 
 string Input::Update()
 {
-    char buf[MAX_INPUT_LEN];
+    char buf[MAX_INPUT_LEN + 1];
 
     if (CheckKeyInput(hInput) == 1) {
         GetKeyInputString(buf, hInput);             // 入力内容を取得
@@ -55,7 +54,15 @@ string Input::Update()
 void Input::Draw()
 {
     DrawBox(INPUT_BOX_X, INPUT_BOX_Y, INPUT_BOX_X + INPUT_BOX_W, INPUT_BOX_Y + INPUT_BOX_H, 0xffffff, TRUE);
+
+    static bool pre_active_flag = false;
+    // ウインドウが非アクティブになったらカーソルの点滅を止める
+    if(pre_active_flag != GetWindowActiveFlag())
+        SetKeyInputCursorBrinkFlag(!pre_active_flag);
+
     SetDrawArea(INPUT_BOX_X, INPUT_BOX_Y, INPUT_BOX_X + INPUT_BOX_W - 3, INPUT_BOX_Y + INPUT_BOX_H);
     DrawKeyInputString(INPUT_BOX_X + 5, INPUT_BOX_Y + 5, hInput);
     SetDrawArea(0, 0, SCREEN_W, SCREEN_H);
+
+    pre_active_flag = GetWindowActiveFlag();
 }
