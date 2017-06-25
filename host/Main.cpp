@@ -1,12 +1,11 @@
-﻿#include "Main.h"
+﻿#include "../guest/Main.h"
 #include "../guest/Talk.h"
 #include "Network.h"
 #include "../guest/Input.h"
+#include "../guest/Screen.h"
 #include <Windows.h>
 
 double scale;
-
-vector<Message> talk;       // チャットログ
 
 void Main::Init()
 {
@@ -44,22 +43,19 @@ void Main::Run()
     if (network.isConnected()) {
         network.Establish();
 
+        Screen screen;
         Input input;
         string msg;
 
         while (MessageLoop() && network.Update()) {
 
+            screen.Update();
+
             if (!(msg = input.Update()).empty())
                 network.Send(msg);
 
             input.Draw();
-            network.Draw();
-
-            //static bool pre_key_status = true;
-            //// スペースキーが押されたときデータを送信
-            //if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
-            //    network.Send();
-            //pre_key_status = (CheckHitKeyAll() != 0);
+            screen.Draw();
         }
 
 

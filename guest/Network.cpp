@@ -33,7 +33,7 @@ bool Network::Update()
     // 取得していない受信データ量が0以外のとき
     if (data_len != 0) {
         NetWorkRecv(hNet, strbuf, data_len);            // データをバッファに取得
-        talk.push_back(Message(strbuf, Host));
+        talk.push_back(Message(strbuf, You));
     }
 
     // 通信が切断された場合falseを返す
@@ -43,17 +43,8 @@ bool Network::Update()
     return true;
 }
 
-void Network::Draw()
-{
-    for (int i = 0; i < talk.size(); i++)
-        if(talk[i].GetWho() == Host)
-            DrawString(0, i * 20, talk[i].GetStr(), GetColor(0, 255, 255));
-        else
-            DrawString(0, i * 20, talk[i].GetStr(), GetColor(255, 0, 255));
-}
-
-void Network::Send(string msg)
+void Network::Send(string &msg)
 {
     // データ送信
-    NetWorkSend(hNet, msg.c_str(), msg.length());
+    NetWorkSend(hNet, msg.c_str(), (int)msg.length() + 1);
 }

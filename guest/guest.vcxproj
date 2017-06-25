@@ -167,6 +167,10 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="Screen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Talk.cpp">
       <SubType>
       </SubType>
@@ -176,6 +180,10 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="Screen.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Talk.h">
       <SubType>
       </SubType>

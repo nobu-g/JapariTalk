@@ -2,11 +2,10 @@
 #include "Talk.h"
 #include "Network.h"
 #include "Input.h"
+#include "Screen.h"
 #include <Windows.h>
 
 double scale;
-
-vector<Message> talk;       // チャットログ
 
 void Main::Init()
 {
@@ -32,8 +31,6 @@ void Main::Run()
 {
     Network network;
 
-    
-
     // 接続が完了するかESCキーが押されるまでループ
     while (MessageLoop() && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && !network.TryConnect()) {
         DrawString(0, 0, "接続中...", 0x000000);
@@ -42,22 +39,19 @@ void Main::Run()
     // 接続されていたら次に進む
     if (network.isConnected()) {
 
+        Screen screen;
         Input input;
         string msg;
 
         while (MessageLoop() && network.Update()) {
 
+            screen.Update();
+
             if (!(msg = input.Update()).empty())
                 network.Send(msg);
 
+            screen.Draw();
             input.Draw();
-            network.Draw();
-            
-            //static bool pre_key_status = true;
-            //// スペースキーが押されたときデータを送信
-            //if (!pre_key_status && CheckHitKey(KEY_INPUT_SPACE))
-            //    network.Send();
-            //pre_key_status = (CheckHitKeyAll() != 0);
         }
 
 

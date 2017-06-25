@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\guest\Input.cpp" />
+    <ClCompile Include="..\guest\Screen.cpp" />
     <ClCompile Include="..\guest\Talk.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Network.cpp">
@@ -174,8 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\guest\Input.h" />
+    <ClInclude Include="..\guest\Main.h" />
+    <ClInclude Include="..\guest\Screen.h" />
     <ClInclude Include="..\guest\Talk.h" />
-    <ClInclude Include="Main.h" />
     <ClInclude Include="Network.h">
       <SubType>
       </SubType>

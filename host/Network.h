@@ -18,6 +18,5 @@ public:
     bool isConnected();     // 接続が成功したかどうか
     void Establish();       // 接続を確立する
     bool Update();          // 毎ループ実行
-    void Draw();            // 描画
-    void Send(string msg);  // 相手マシンにデータを送信
+    void Send(string &msg); // 相手マシンにデータを送信
 };
