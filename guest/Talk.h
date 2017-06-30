@@ -16,15 +16,15 @@ class Message {
     vector<int> head_index;     // 行頭になる文字が先頭から何文字目か
 public:
     Message(string s, eWho w);
-    string GetRow(int i) const ;    // 第i+1行目の文字列を返す
+    string GetRow(int i) const ;        // 第i+1行目の文字列を返す
     bool isMyMsg() const {
-        return who == Me;           // 自分のメッセージかどうかを返す
+        return who == Me;               // 自分のメッセージかどうかを返す
     }
     int GetRowNum() const {
-        return head_index.size();   // 行数を返す
+        return (int)head_index.size();  // 行数を返す
     }
     int GetWidth() const {
-        return width;               // 1行の幅を返す
+        return width;                   // 1行の幅を返す
     }
 };
 
