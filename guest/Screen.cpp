@@ -47,25 +47,20 @@ void Screen::Draw()
 
 void Screen::DrawBaloon(const Message &msg, int pos)
 {
-    int w = msg.GetWidth();
-    int h = ROW_HIGHT * msg.GetRowNum() - RAD;
-    int x = (msg.isMyMsg()) ? (MAXPIX_X - BOX_MARGIN - RAD - w) : (ICON_SPACE + BOX_MARGIN + RAD);
-    int y = pos + HALF_MARGIN + RAD;
+    int w = msg.GetWidth() + RAD * 2;
+    int h = ROW_HIGHT * msg.GetRowNum() + RAD;
+    int x = (msg.isMyMsg()) ? (MAXPIX_X - BOX_MARGIN - w) : (ICON_SPACE + BOX_MARGIN);
+    int y = pos + HALF_MARGIN;
     int color = (msg.isMyMsg()) ? 0x01b901 : 0xffffff;
 
     // 角の丸い長方形を描く
-    DrawBox(x,       y - RAD, x + w + 1,       y + h + 1 + RAD, color, TRUE);
-    DrawBox(x - RAD, y,       x + w + 1 + RAD, y + h + 1,       color, TRUE);
-    DrawCircleAA(x,     y,     RAD, 32, color, TRUE);
-    DrawCircleAA(x,     y + h, RAD, 32, color, TRUE);
-    DrawCircleAA(x + w, y,     RAD, 32, color, TRUE);
-    DrawCircleAA(x + w, y + h, RAD, 32, color, TRUE);
+    DrawRoundRectAA(x, y, x + w + 1, y + h + 1, RAD, RAD, 32, color, TRUE);
 
     // 吹き出しの三角形を描く
     if (msg.isMyMsg())
-        DrawTriangleAA(MAXPIX_X - SPACE + 1, y - RAD / 2, MAXPIX_X - BOX_MARGIN + 1, y, MAXPIX_X - BOX_MARGIN + 1, y + SCALE(7), color, TRUE);
+        DrawTriangleAA(MAXPIX_X - SPACE + 1, y + RAD / 2, MAXPIX_X - BOX_MARGIN + 1, y + RAD, MAXPIX_X - BOX_MARGIN + 1, y + RAD + SCALE(7), color, TRUE);
     else
-        DrawTriangleAA(SPACE + ICON_SPACE, y - RAD / 2, ICON_SPACE + BOX_MARGIN, y, ICON_SPACE + BOX_MARGIN, y + SCALE(7), color, TRUE);
+        DrawTriangleAA(SPACE + ICON_SPACE, y + RAD / 2, ICON_SPACE + BOX_MARGIN, y + RAD, ICON_SPACE + BOX_MARGIN, y +RAD + SCALE(7), color, TRUE);
 }
 
 int Screen::GetMainFont()

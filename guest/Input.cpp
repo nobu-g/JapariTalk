@@ -63,7 +63,7 @@ void Input::Draw()
         SetKeyInputCursorBrinkFlag(!pre_active_flag);
 
     SetDrawArea(INPUT_BOX_X, INPUT_BOX_Y, INPUT_BOX_X + INPUT_BOX_W - 3, INPUT_BOX_Y + INPUT_BOX_H);
-    DrawKeyInputString(INPUT_BOX_X + 5, INPUT_BOX_Y + 5, hInput);
+    DrawKeyInputString(INPUT_BOX_X + SCALE(3), INPUT_BOX_Y + SCALE(3), hInput);
     SetDrawArea(0, 0, SCREEN_W, SCREEN_H);
 
     pre_active_flag = GetWindowActiveFlag();
