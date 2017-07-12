@@ -1,4 +1,4 @@
-﻿#include"DxLib.h"
+﻿#include "DxLib.h"
 #include "Input.h"
 #include "Talk.h"
 #include "Screen.h"
@@ -11,7 +11,7 @@
 Input::Input()
 {
     // 入力ハンドル作成＆有効化
-    hInput = MakeKeyInput(MAX_INPUT_LEN - 1, FALSE, FALSE, FALSE);
+    hInput = MakeKeyInput(MAX_STR_LEN - 1, FALSE, FALSE, FALSE);
     SetActiveKeyInput(hInput);
 
     // 文字入力用フォント作成
@@ -20,7 +20,7 @@ Input::Input()
 
     // IME設定
     SetKeyInputStringColor(BLACK, BLACK, WHITE, BLACK, BLACK, LIGHT_BLUE, BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, BLUE, WHITE, WHITE, BLACK, BLACK);
-    SetIMEInputStringMaxLength(MAX_INPUT_LEN - 1);
+    SetIMEInputStringMaxLength(MAX_STR_LEN - 1);
     
     SetKeyInputString("a", hInput);
     DrawKeyInputString(INPUT_BOX_X + 3, INPUT_BOX_Y + 5, hInput);   // 一度文字を描画しないと入力欄が点滅してしまう(バグ?)
@@ -35,7 +35,7 @@ Input::~Input()
 
 string Input::Update()
 {
-    char buf[MAX_INPUT_LEN];
+    char buf[MAX_STR_LEN];
 
     if (CheckKeyInput(hInput) == 1) {
         GetKeyInputString(buf, hInput);             // 入力内容を取得
@@ -62,9 +62,10 @@ void Input::Draw()
     if(pre_active_flag != (bool)GetWindowActiveFlag())
         SetKeyInputCursorBrinkFlag(!pre_active_flag);
 
-    SetDrawArea(INPUT_BOX_X, INPUT_BOX_Y, INPUT_BOX_X + INPUT_BOX_W - 3, INPUT_BOX_Y + INPUT_BOX_H);
-    DrawKeyInputString(INPUT_BOX_X + SCALE(3), INPUT_BOX_Y + SCALE(3), hInput);
-    SetDrawArea(0, 0, SCREEN_W, SCREEN_H);
+    const int margin = SCALE(3.5);
+
+    SetDrawArea(INPUT_BOX_X + margin, INPUT_BOX_Y + margin, INPUT_BOX_X + INPUT_BOX_W - margin, INPUT_BOX_Y + INPUT_BOX_H - margin + SCALE(2));
+    DrawKeyInputString(INPUT_BOX_X + margin, INPUT_BOX_Y + margin, hInput);
 
     pre_active_flag = GetWindowActiveFlag();
 }

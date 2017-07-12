@@ -5,11 +5,9 @@
 #include <string>
 using namespace std;
 
-#define HOST_IP    { 127, 0, 0, 1 }
-#define HOST_PORT  50000
-
 class Network {
     IPDATA ip;              // 接続先IPアドレスデータ
+    int port;               // 接続先ホストのポート番号
     int hNet;               // ネットワークハンドル
 public:
     Network();

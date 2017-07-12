@@ -3,11 +3,14 @@
 #include "Main.h"
 #include <vector>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 #define MAX_ROW_WIDTH       (SCREEN_W * 3 / 4)
+#define VOICE_NUM           7
 
 enum eWho { You, Me };
+enum eVoice { Omakase, Sawaguhodo, Suggo_i, Tabenaide, Tabenaiyo, Wa_i, Wakaran };
 
 class Message {
     string str;                 // メッセージ内容
@@ -28,4 +31,13 @@ public:
     }
 };
 
+class Voice {
+    static unordered_map<eVoice, int> hVoice;   // 音声ハンドル
+    int hPlaying;                               // 現在再生中の音声
+public:
+    Voice();
+    void Speak(string str);
+};
+
 extern vector<Message> talk;
+extern Voice *pVoice;

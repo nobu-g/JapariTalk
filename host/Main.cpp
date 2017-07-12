@@ -15,7 +15,7 @@ void Main::Init()
     ReleaseDC(0, screen);
 
     SetAlwaysRunFlag(TRUE);
-    SetBackgroundColor(100, 100, 100);
+    SetBackgroundColor(189, 198, 193);
     SetDoubleStartValidFlag(TRUE);
     ChangeWindowMode(TRUE);
     SetGraphMode(SCREEN_W, SCREEN_H, 16);
@@ -43,6 +43,7 @@ void Main::Run()
     if (network.isConnected()) {
         network.Establish();
 
+        pVoice = new Voice();
         Screen screen;
         Input input;
         string msg;
@@ -54,17 +55,15 @@ void Main::Run()
             if (!(msg = input.Update()).empty())
                 network.Send(msg);
 
-            input.Draw();
             screen.Draw();
+            input.Draw();
         }
-
-
 
         // 切断確認表示
         DrawString(0, 16, "切断しました", GetColor(255, 255, 255));
         ScreenFlip();
 
-
+        WaitKey();
     }
 }
 
@@ -75,6 +74,7 @@ bool Main::MessageLoop()
 
 void Main::End()
 {
+    delete pVoice;
     DxLib_End();
 }
 
@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     Main main_ob;
 
     main_ob.Init();
-    while(!ProcessMessage()) main_ob.Run();
+    while (!ProcessMessage()) main_ob.Run();
     main_ob.End();
 
     return 0;

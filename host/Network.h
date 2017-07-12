@@ -5,10 +5,9 @@
 #include <string>
 using namespace std;
 
-#define PORT    50000
-
 // 通信クラス
 class Network {
+    int port;               // 接続を受け付けるポート番号
     int hNet;               // ネットワークハンドル
     IPDATA ip;              // 接続先IPアドレスデータ
 public:

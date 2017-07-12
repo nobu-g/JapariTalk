@@ -1,14 +1,28 @@
 ﻿#include "Network.h"
 #include "../guest/Talk.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/optional.hpp>
+
+using namespace std;
+using namespace boost::property_tree;
 
 Network::Network()
 {
+    ptree pt;
+    read_ini("portdata.ini", pt);
+
+    if (auto value = pt.get_optional<int>("PORT"))
+        port = value.get();
+    else
+        port = 50000;
+
     hNet = -1;
 }
 
 void Network::StartListen()
 {
-    PreparationListenNetWork(PORT);
+    PreparationListenNetWork(port);
 }
 
 bool Network::Listen()
@@ -34,8 +48,8 @@ void Network::Establish()
 
 bool Network::Update()
 {
-    int data_len;           // 受信データ量保存用変数
-    char strbuf[256] = {};  // データバッファ
+    int data_len;                   // 受信データ量保存用変数
+    char strbuf[MAX_STR_LEN] = {};  // データバッファ
 
     data_len = GetNetWorkDataLength(hNet);
 

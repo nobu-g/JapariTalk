@@ -1,9 +1,35 @@
 ﻿#include "Network.h"
 #include "Talk.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/optional.hpp>
+#include <boost/spirit/include/qi.hpp>
+
+using namespace std;
+using namespace boost::property_tree;
+namespace qi = boost::spirit::qi;
 
 Network::Network()
 {
-    ip = HOST_IP;  // IPアドレスを設定
+    ptree pt;
+    read_ini("ipdata.ini", pt);
+
+    ip = { 127, 0, 0, 1 };
+    if (auto value = pt.get_optional<string>("IP")) {
+        auto it = begin(value.get());
+
+        qi::parse(
+            it, end(value.get()),
+            qi::ushort_ >> '.' >> qi::ushort_ >> '.' >> qi::ushort_ >> '.' >> qi::ushort_,
+            ip.d1, ip.d2, ip.d3, ip.d4
+        );
+    }        
+
+    if (auto value = pt.get_optional<int>("PORT"))
+        port = value.get();
+    else
+        port = 50000;
+
     hNet = -1;
 }
 
@@ -12,7 +38,7 @@ bool Network::TryConnect()
     static unsigned cnt = 0;
 
     if (cnt % 180 == 0)
-        hNet = ConnectNetWork(ip, HOST_PORT);  // 通信を確立
+        hNet = ConnectNetWork(ip, port);  // 通信を確立
     cnt++;
 
     return hNet != -1;
@@ -25,8 +51,8 @@ bool Network::isConnected()
 
 bool Network::Update()
 {
-    int data_len;           // 受信データ量保存用変数
-    char strbuf[256] = {};  // データバッファ
+    int data_len;                   // 受信データ量保存用変数
+    char strbuf[MAX_STR_LEN] = {};  // データバッファ
 
     data_len = GetNetWorkDataLength(hNet);
 
