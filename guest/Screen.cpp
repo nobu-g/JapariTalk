@@ -15,6 +15,7 @@ Screen::Screen()
         case 480:   hBackground = LoadGraph("img\\background96.png");   break;
         case 600:   hBackground = LoadGraph("img\\background120.png");  break;
         case 720:   hBackground = LoadGraph("img\\background144.png");  break;
+        case 960:   hBackground = LoadGraph("img\\background192.png");  break;
         }
     }
     if (hIcon == -1) {
@@ -22,6 +23,7 @@ Screen::Screen()
         case 480:   hIcon = LoadGraph("img\\talkicon96.png");   break;
         case 600:   hIcon = LoadGraph("img\\talkicon120.png");  break;
         case 720:   hIcon = LoadGraph("img\\talkicon144.png");  break;
+        case 960:   hIcon = LoadGraph("img\\talkicon192.png");  break;
         }
     }
 
